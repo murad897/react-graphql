@@ -26,7 +26,7 @@ const Contacts = ({
       data.append("inputname", selectedFile);
       console.log(selectedFile);
       const res = await axios.post(
-        `http://localhost:3007/user/uploadImage`,
+        `http://localhost:3001/user/uploadImage`,
         selectedFile,
         {
           headers: {

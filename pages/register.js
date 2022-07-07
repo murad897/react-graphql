@@ -4,31 +4,36 @@ import Link from "next/link";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useMutation, useQuery } from "@apollo/client";
+import { USER_REGISTRATE } from "../src/mutations/User";
 
 const Register = () => {
+  const [newUser] = useMutation(USER_REGISTRATE);
   const router = useRouter();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setlastName] = useState("");
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setlastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const registerSubmitHandler = (e) => {
     e.preventDefault();
-    axios
-      .post(`http://localhost:3007/user/register`, {
-        first_name: firstName,
-        last_name: lastName,
-        email: email,
-        password: password,
-      })
-      .then((res) => {
-        const persons = res;
-        router.push("/login");
-        console.log(persons, "yfjfjgf");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    newUser({
+      variables: {
+        input: {
+          first_name,
+          last_name,
+          email,
+          password,
+        },
+      },
+    }).then(({ data }) => {
+      router.push("/login");
+      console.log(data);
+      setFirstName("");
+      setlastName("");
+      setEmail("");
+      setPassword("");
+    });
   };
 
   return (
@@ -42,7 +47,7 @@ const Register = () => {
             className="form-control"
             id="exampleInputPassword1"
             placeholder="Password"
-            value={firstName}
+            value={first_name}
             onChange={(e) => setFirstName(e.target.value)}
           />
         </div>
@@ -53,7 +58,7 @@ const Register = () => {
             className="form-control"
             id="exampleInputPassword1"
             placeholder="Password"
-            value={lastName}
+            value={last_name}
             onChange={(e) => setlastName(e.target.value)}
           />
         </div>

@@ -33,14 +33,14 @@ const Header = () => {
   let secArray = [];
   const getDataGlobally = async () => {
     const getProducts = await axios.get(
-      `http://localhost:3007/products`,
+      `http://localhost:3001/products`,
       headers
     );
     setProducts(getProducts.data.data);
   };
   const getFilteredData = async () => {
     const checkPorducts = await axios.post(
-      `http://localhost:3007/products/search`,
+      `http://localhost:3001/products/search`,
       {
         name: inputVal,
         id: inputVal,
@@ -63,7 +63,7 @@ const Header = () => {
         if (element.checkbox) {
           array.push(element._id);
           axios.delete(
-            `http://localhost:3007/products/delete/${array}`,
+            `http://localhost:3001/products/delete/${array}`,
             headers
           );
           getDataGlobally();
@@ -84,7 +84,7 @@ const Header = () => {
         if (element.checkbox) {
           secArray.push(element._id);
           axios.delete(
-            `http://localhost:3007/products/delete/${secArray}`,
+            `http://localhost:3001/products/delete/${secArray}`,
             headers
           );
           getFilteredData();
@@ -100,7 +100,7 @@ const Header = () => {
 
   const onchangeHandler = async () => {
     const checkPorduct = await axios.post(
-      `http://localhost:3007/products/search`,
+      `http://localhost:3001/products/search`,
       {
         name: inputVal,
       },
@@ -108,7 +108,7 @@ const Header = () => {
     );
     setFilteredResults(checkPorduct.data.response);
     const getProducts = await axios.get(
-      `http://localhost:3007/products`,
+      `http://localhost:3001/products`,
       headers
     );
     setProducts(getProducts.data.data);

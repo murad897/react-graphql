@@ -5,33 +5,27 @@ import Chats from "./chats";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
+import { GET_USER } from "../src/queries/User";
+import { useQuery } from "@apollo/client";
 
 const index = () => {
   const [token, setToken] = useState("");
   const [success, setSuccess] = useState("");
-  console.log(token);
+  const { data, loading, error } = useQuery(GET_USER, {
+    variables: {
+      token,
+    },
+  });
+
   useEffect(() => {
     setToken(localStorage.getItem("token"));
-    console.log(token);
     if (token) {
-      axios
-        .post(`http://localhost:3007/user/getUser`, {
-          token: token,
-        })
-        .then((res) => {
-          const person = res;
-          setSuccess(person.data.isToken);
-          console.log(person, "token success");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      setSuccess(true);
     } else {
-      console.log("empty token");
+      console.log("token is emty");
     }
   }, [token]);
-
-  
+  console.log(data, "getUser");
 
   return (
     <div>
