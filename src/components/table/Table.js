@@ -49,14 +49,14 @@ const TableComp = () => {
                 checked={product.checkbox}
                 onClick={async (e) => {
                   await axios.patch(
-                    `http://localhost:3007/products/${product._id}`,
+                    `http://localhost:3001/products/${product._id}`,
                     {
                       checkbox: !product.checkbox,
                     },
                     headers
                   );
                   const getProducts = await axios.get(
-                    `http://localhost:3007/products`,
+                    `http://localhost:3001/products`,
                     headers
                   );
                   setProducts(getProducts.data.data);
@@ -89,14 +89,14 @@ const TableComp = () => {
                 checked={product.checkbox}
                 onClick={async (e) => {
                   await axios.patch(
-                    `http://localhost:3003/products/${product._id}`,
+                    `http://localhost:3001/products/${product._id}`,
                     {
                       checkbox: !product.checkbox,
                     },
                     headers
                   );
                   const checkPorducts = await axios.post(
-                    `http://localhost:3007/products/search`,
+                    `http://localhost:3001/products/search`,
                     {
                       name: inputVal,
                     },

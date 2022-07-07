@@ -4,28 +4,31 @@ import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { USER_LOGIN } from "../src/mutations/User";
+import { useMutation, useQuery } from "@apollo/client";
 
 const Login = () => {
   const router = useRouter();
+  const [loginUser] = useMutation(USER_LOGIN);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const loginEvent = (e) => {
     e.preventDefault();
-    axios
-      .post(`http://localhost:3007/user/login`, {
-        email: email,
-        password: password,
-      })
-      .then((res) => {
-        const persons = res;
-        router.push("/");
-        console.log(persons.data.token, "yfjfjgf");
-        localStorage.setItem("token", persons.data.token);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    loginUser({
+      variables: {
+        input: {
+          email,
+          password,
+        },
+      },
+    }).then(({ data }) => {
+      router.push("/");
+      localStorage.setItem("token", data.loginUser.token);
+      console.log(data);
+      setEmail("");
+      setPassword("");
+    });
   };
 
   return (

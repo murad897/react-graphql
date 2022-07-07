@@ -33,7 +33,7 @@ const Popup = () => {
     setOpen(false);
     axios
       .post(
-        "http://localhost:3007/products/create",
+        "http://localhost:3001/products/create",
         {
           image: formData.image,
           name: formData.name,
@@ -51,7 +51,7 @@ const Popup = () => {
         const items = res.data.data;
         setProducts((array) => [...array, items]);
         axios
-          .get(`http://localhost:3007/products`, {
+          .get(`http://localhost:3001/products`, {
             headers: {
               Authorization: `baerer ${localStorage.getItem("token")}`,
             },
