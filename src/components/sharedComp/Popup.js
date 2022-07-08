@@ -6,8 +6,11 @@ import { PopupContext } from "../../context/context";
 import { useContext } from "react";
 import { formInfo } from "../../context/context";
 import axios from "axios";
+import { CREATE_PRODUCT } from "../../mutations/User";
+import { useMutation, useQuery } from "@apollo/client";
 
 const Popup = () => {
+  const [createProduct] = useMutation(CREATE_PRODUCT);
   const { setProducts } = useContext(formInfo);
   const { setOpen } = useContext(PopupContext);
   const handleOpen = () => setOpen(false);
@@ -29,46 +32,20 @@ const Popup = () => {
   // const handleProduct = () => setProducts((prevState) => [...prevState, formData]);
   const PopupSubmitEvent = (e) => {
     e.preventDefault();
-
     setOpen(false);
-    axios
-      .post(
-        "http://localhost:3001/products/create",
-        {
+    createProduct({
+      variables: {
+        input: {
           image: formData.image,
           name: formData.name,
           mpns: formData.mpns,
           manifactuler: formData.manifactuler,
           checkbox: false,
         },
-        {
-          headers: {
-            Authorization: `baerer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        const items = res.data.data;
-        setProducts((array) => [...array, items]);
-        axios
-          .get(`http://localhost:3001/products`, {
-            headers: {
-              Authorization: `baerer ${localStorage.getItem("token")}`,
-            },
-          })
-          .then((res) => {
-            const items = res.data.data;
-            console.log(items, "hhhhh");
-            setProducts(items);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-        console.log(items);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      },
+    }).then(({ data }) => {
+      console.log(data, "data");
+    });
   };
 
   const style = {
