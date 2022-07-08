@@ -16,3 +16,11 @@ export const USER_LOGIN = gql`
     }
   }
 `;
+
+export const CREATE_PRODUCT = gql`
+  mutation createProduct($input: ProductInput) {
+    createProduct(input: $input) {
+      image
+    }
+  }
+`;
